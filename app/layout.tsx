@@ -64,13 +64,7 @@ export default function RootLayout({
                 <Link href="/links">All Links</Link>
                 <Link href="/about">About Us</Link>
                 <Link href="/how-it-works">How It Works</Link>
-                <Link href="/faq">FAQ</Link>
-                <Link href="/editorial-policy">Editorial Policy</Link>
                 <Link href="/contact">Contact Us</Link>
-                <Link href="/terms-of-use">Terms of Use</Link>
-                <Link href="/dmca">DMCA</Link>
-                <Link href="/privacy-policy">Privacy Policy</Link>
-                <Link href="/disclaimer">Disclaimer</Link>
               </nav>
             </div>
           </header>
