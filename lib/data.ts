@@ -469,7 +469,7 @@ export const links: LinkItem[] = rawLinks
     const label = labelForUrl(url, category, siteName);
     const name = buildItemName(siteName, label);
     const slugBase = slugify(`${formatDomain(url.hostname)}-${label || siteName}`);
-    const imageIndex = index > MAX_IMAGE_INDEX ? Math.floor(index % MAX_IMAGE_INDEX) + 1 : index + 1;
+    const imageIndex = index > MAX_IMAGE_INDEX ? Math.floor(index % MAX_IMAGE_INDEX) + 1 : index;
 
     return {
       slug: createUniqueSlug(slugBase || "link"),
@@ -495,7 +495,7 @@ export const domainGroups: DomainGroup[] = (() => {
   for (const link of links) {
     const key = `${link.category}::${link.domain}`;
     const existing = groups.get(key);
-    const imageIndex = groups.size > MAX_IMAGE_INDEX ? Math.floor(groups.size % MAX_IMAGE_INDEX) + 1 : groups.size + 1;
+    const imageIndex = groups.size > MAX_IMAGE_INDEX ? Math.floor(groups.size % MAX_IMAGE_INDEX) + 1 : groups.size;
 
     if (existing) {
       existing.items.push(link);
