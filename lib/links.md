@@ -5,7 +5,7 @@ https://www.vporn.com/
 https://www.tube8.com/
 https://porndope.com/
 https://porngale.com/
-https://www.pornhubpremium.com/premium_signup?ats=eyJhIjoxMDMwMCwiYyI6NDc3NTU2MzksIm4iOjMsInMiOjIsImUiOjEyLCJwIjoxMX0=
+https://www.pornhubpremium.com
 https://www.videobox.com/?pid=tblopcom
 https://www.pornmd.com/straight/abused+shoes
 https://www.pornmd.com/straight/adult+diaper
@@ -1206,7 +1206,6 @@ https://www.incestflix.com/
 https://www.dads-banging-teens.com/
 https://thesexlist.com/category/lesbian/
 https://www.lesbianpornvideos.com/
-https://alllesbiantube.com/
 https://beauty-angels.com/
 https://lesbianpornwebsites.com/
 https://lesbiansites.porn/
@@ -1382,9 +1381,7 @@ https://link.pornmate.com/sites/21sextury/
 https://pornmate.com/21sextury
 https://link.pornmate.com/sites/shoplyfter/
 https://pornmate.com/shoplyfter
-https://link.pornmate.com/sites/perfectgonzo/
 https://pornmate.com/perfectgonzo
-https://link.pornmate.com/sites/asstraffic/
 https://pornmate.com/asstraffic
 https://pornmate.com/dogfartnetwork
 https://link.pornmate.com/sites/exxxtrasmall/
@@ -1785,7 +1782,6 @@ https://pornmate.com/lesbian-sex-sites
 https://lesbify.com/
 https://link.pornmate.com/sites/lesbian8
 https://link.pornmate.com/sites/onlylesbiantube
-https://link.pornmate.com/sites/alllesbiantube
 https://link.pornmate.com/sites/lesbianpornvideos
 https://milfslesbian.com/
 https://pornmate.com/amateur-porn-premium

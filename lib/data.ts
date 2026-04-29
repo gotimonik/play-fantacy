@@ -20,32 +20,32 @@ export const categories = [
   },
   {
     slug: "sites-1",
-    name: "Sites 1",
+    name: "Big Hub",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 1)."
   },
   {
     slug: "sites-2",
-    name: "Sites 2",
+    name: "Adult",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 2)."
   },
   {
     slug: "sites-3",
-    name: "Sites 3",
+    name: "Hot",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 3)."
   },
   {
     slug: "sites-4",
-    name: "Sites 4",
+    name: "Latest",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 4)."
   },
   {
     slug: "sites-5",
-    name: "Sites 5",
+    name: "Amateur",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 5)."
   },
   {
     slug: "sites-6",
-    name: "Sites 6",
+    name: "Love",
     description: "Direct site links, galleries, and standalone destinations from the saved list (part 6)."
   },
   {
@@ -529,7 +529,8 @@ export const domainGroups: DomainGroup[] = (() => {
 export const groupedLinksByCategory = activeCategories.map((category) => ({
   category,
   groups: domainGroups.filter((group) => group.category === category.slug)
-})).sort((a, b) => a.groups.length - b.groups.length || a.category.name.localeCompare(b.category.name));
+})).sort((a, b) => b.groups.length - a.groups.length || a.category.name.localeCompare(b.category.name));
+
 
 export function getGroupsByCategory(slug: string) {
   return domainGroups.filter((group) => group.category === slug);
