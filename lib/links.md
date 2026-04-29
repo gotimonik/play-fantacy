@@ -1,4 +1,3 @@
-https://www.pornhub.com/
 https://xhamster.com/
 https://www.xvideos.com/
 https://www.xnxx.com/
@@ -1071,14 +1070,12 @@ https://www.nutaku.net/games/download/?ats=eyJhIjoxMDMwMCwiYyI6NDc3NTU2MzksIm4iO
 https://naked-titan.tumblr.com/
 https://pmvjunkie.tumblr.com/
 https://sirlance4589.tumblr.com/
-https://distracting-nights.tumblr.com/
 https://sirecchiextreme.tumblr.com/
 https://latenight-sexycomics.tumblr.com/
 https://boundx0beauty.tumblr.com/
 https://richthebartender.tumblr.com/
 https://theporndude.com/
 https://www.primepornlist.com/
-https://www.pornhub.com/users/gregfromtblop
 https://thesexlist.com/
 https://thesexlist.com/more-porn/
 https://thesexlist.com/other-xxx/
@@ -1095,7 +1092,6 @@ https://thesexlist.com/category/porn-tubes/
 https://xhamster.com/
 https://spankbang.com/
 https://www.ixxx.com/
-https://www.pornhub.com/
 https://www.xvideos.com/
 https://hqporner.com/
 https://fullporner.com/
@@ -1390,7 +1386,6 @@ https://link.pornmate.com/sites/perfectgonzo/
 https://pornmate.com/perfectgonzo
 https://link.pornmate.com/sites/asstraffic/
 https://pornmate.com/asstraffic
-https://link.pornmate.com/sites/dogfartnetwork/
 https://pornmate.com/dogfartnetwork
 https://link.pornmate.com/sites/exxxtrasmall/
 https://pornmate.com/exxxtrasmall
@@ -1697,7 +1692,6 @@ https://xhamster.com/vr
 https://pornmate.com/sexlikereal
 https://join.virtualtaboo.com/track/NTM4LjEuMS4xLjAuMC4wLjAuMA
 https://povr.com/
-https://www.pornhub.com/vr
 https://jav-vr.net/
 https://pornmate.com/vrsmash
 https://virtualrealporn.com/
@@ -1705,12 +1699,10 @@ https://vrporncat.com/
 https://vrpornjack.com/
 https://vrporngamester.com/
 https://www.xvideos.com/?k=vr&top
-https://spankbang.com/s/vr/?
 https://pornmate.com/myfreevrporn
 https://pornmate.com/laidhub
 https://www.youporn.com/category/virtualreality/
 https://pornmate.com/vrporn
-https://www.xnxx.com/search/vr?top
 https://pornmate.com/vrbangers
 https://pornmate.com/best-porn-games
 https://link.pornmate.com/sites/mysexgames/

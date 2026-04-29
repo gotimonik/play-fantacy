@@ -1,7 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCategoryBySlug, getDomainGroupForLink, getLinkBySlug, links } from "@/lib/data";
+import {
+  getCategoryBySlug,
+  getDomainGroupForLink,
+  getLinkBySlug,
+  links,
+} from "@/lib/data";
+import { getImageUrl } from "@/lib/utils";
 
 type Props = {
   params: {
@@ -14,7 +20,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
   if (!item) {
     return {
-      title: "Link Not Found"
+      title: "Link Not Found",
     };
   }
 
@@ -22,14 +28,14 @@ export function generateMetadata({ params }: Props): Metadata {
     title: item.name,
     description: item.description,
     alternates: {
-      canonical: `/links/${item.slug}`
-    }
+      canonical: `/links/${item.slug}`,
+    },
   };
 }
 
 export function generateStaticParams() {
   return links.map((item) => ({
-    slug: item.slug
+    slug: item.slug,
   }));
 }
 
@@ -42,7 +48,8 @@ export default function LinkDetailPage({ params }: Props) {
 
   const category = getCategoryBySlug(item.category);
   const group = getDomainGroupForLink(item);
-  const relatedLinks = group?.items.filter((entry) => entry.slug !== item.slug).slice(0, 24) ?? [];
+  const relatedLinks =
+    group?.items.filter((entry) => entry.slug !== item.slug).slice(0, 24) ?? [];
 
   return (
     <main className="subpage-shell">
@@ -56,6 +63,24 @@ export default function LinkDetailPage({ params }: Props) {
           <span>Saved outbound destination</span>
         </div>
 
+        <div>
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          ><img
+            src={getImageUrl(item.imageIndex)}
+            alt={item.name}
+            className="category-image"
+            style={{
+              width: "250px",
+              height: "250px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              marginBottom: "0.5rem",
+            }}
+          /></a>
+        </div>
         <div className="hero-actions">
           <a
             href={item.url}
@@ -82,7 +107,23 @@ export default function LinkDetailPage({ params }: Props) {
           <div className="link-table">
             {relatedLinks.length > 0 ? (
               relatedLinks.map((related) => (
-                <Link key={related.slug} href={`/links/${related.slug}`} className="table-link">
+                <Link
+                  key={related.slug}
+                  href={`/links/${related.slug}`}
+                  className="table-link"
+                >
+                  <img
+                    src={getImageUrl(related.imageIndex)}
+                    alt={related.label}
+                    className="category-image"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      marginBottom: "0.5rem",
+                    }}
+                  />
                   <span>{related.label}</span>
                   <small>{related.description}</small>
                 </Link>
@@ -90,7 +131,10 @@ export default function LinkDetailPage({ params }: Props) {
             ) : (
               <div className="table-link">
                 <span>No additional routes</span>
-                <small>This is the only saved link currently grouped under this domain.</small>
+                <small>
+                  This is the only saved link currently grouped under this
+                  domain.
+                </small>
               </div>
             )}
           </div>

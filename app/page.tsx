@@ -1,11 +1,7 @@
 import Link from "next/link";
-import {
-  activeCategories,
-  domainGroups,
-  groupedLinksByCategory,
-  links,
-  siteUrl,
-} from "@/lib/data";
+// import { useState } from "react";
+import { groupedLinksByCategory, siteUrl } from "@/lib/data";
+import { getImageUrl, getRandomNumber } from "@/lib/utils";
 
 const supportCards = [
   {
@@ -32,6 +28,9 @@ const jsonLd = {
 };
 
 export default function HomePage() {
+  // const [search, setSearch] = useState("");
+  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+
   return (
     <main className="page-shell">
       <script
@@ -40,16 +39,36 @@ export default function HomePage() {
       />
 
       <div className="hero-copy">
-        <p className="eyebrow">Night mode collection</p>
-        <h1>
-          Your after-hours links now live in one cleaner, faster homepage.
-        </h1>
+        <div
+          className="header-menu"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <img src="/images/image_original_287.jpg" alt="Play Fantacy Logo" style={{ width: 75, height: 75, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
+            <span style={{ fontWeight: 700, fontSize: '1.35rem', letterSpacing: '-0.5px', color: '#bb4d00' }}>Play Fantacy</span>
+          </div>
+          {/* <div style={{ flex: '1 1 220px', maxWidth: 320, minWidth: 180 }}>
+            <input
+              type="search"
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search links..."
+              aria-label="Search links"
+              style={{ width: '100%', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid #ccc', fontSize: '1rem' }}
+            />
+          </div> */}
+        </div>
         <p className="hero-text">
           Play Fantacy turns a long saved list into a night-friendly hub with
           readable names, grouped domains, and quick routes when you want to
           jump straight into the next page.
         </p>
-
         <div className="hero-actions">
           <a href="#directory" className="primary-cta">
             Start browsing
@@ -114,65 +133,109 @@ export default function HomePage() {
 
         <div className="category-grid">
           {groupedLinksByCategory.map(({ category, groups }) => {
+            // Filter groups and items by search
+            // const filteredGroups = groups
+            //   .map((group) => ({
+            //     ...group,
+            //     items: group.items.filter(
+            //       (item) =>
+            //         item.label.toLowerCase().includes(search.toLowerCase()) ||
+            //         item.siteName.toLowerCase().includes(search.toLowerCase()) ||
+            //         item.domain.toLowerCase().includes(search.toLowerCase())
+            //     ),
+            //   }))
+            //   .filter((group) => group.items.length > 0);
+            // if (filteredGroups.length === 0) return null;
             return (
               <article key={category.slug} className="category-card">
                 <div className="category-header">
+                  {/* <img
+                    src={imageUrl}
+                    alt={category.name + " illustration"}
+                    className="category-image"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      marginBottom: "0.5rem",
+                    }}
+                  /> */}
                   <h3>{category.name}</h3>
                   <span>{groups.length} domains</span>
                 </div>
                 <p>{category.description}</p>
 
                 <div className="domain-group-list">
-                  {groups.map((group) =>
-                    group.items.length === 1 ? (
-                      <div
-                        key={`${category.slug}-${group.domain}`}
-                        className="domain-group single-group"
-                      >
-                        <div className="domain-group-summary static-summary">
-                          <span>{group.siteName}</span>
-                          <small>{group.domain}</small>
-                        </div>
+                  {groups.map((group) => (
+                    <details
+                      key={`${category.slug}-${group.domain}`}
+                      className="domain-group"
+                      // open={group.items.length <= 12}
+                    >
+                      <summary className="domain-group-summary">
+                        <img
+                          src={getImageUrl(group.items[0].imageIndex)}
+                          alt={group.items[0].label}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            objectFit: "cover",
+                            borderRadius: "20%",
+                          }}
+                        />
+                        <span>{group.siteName}</span>
+                        <small>
+                          {group.domain} · {group.items.length} link
+                          {group.items.length > 1 ? "s" : ""}
+                        </small>
+                      </summary>
 
-                        <div className="single-group-body">
-                          <Link
-                            href={`/links/${group.items[0].slug}`}
-                            className="outbound-link featured-link"
-                          >
-                            <span>{group.items[0].label}</span>
-                            <small>{group.items[0].description}</small>
-                          </Link>
-                        </div>
-                      </div>
-                    ) : (
-                      <details
-                        key={`${category.slug}-${group.domain}`}
-                        className="domain-group"
-                        open={group.items.length <= 12}
-                      >
-                        <summary className="domain-group-summary">
-                          <span>{group.siteName}</span>
-                          <small>
-                            {group.domain} · {group.items.length} links
-                          </small>
-                        </summary>
-
-                        <ul className="sub-link-list">
-                          {group.items.map((item) => (
-                            <li key={item.slug}>
-                              <Link
-                                href={`/links/${item.slug}`}
-                                className="outbound-link"
-                              >
-                                <span>{item.label}</span>
-                                <small>{item.description}</small>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </details>
-                    ),
-                  )}
+                      <ul className="sub-link-list">
+                        {group.items.map((item) => (
+                          <li key={item.slug}>
+                            <Link
+                              href={`/links/${item.slug}`}
+                              className="outbound-link"
+                            >
+                              <div style={{ display: "flex" }}>
+                                <div>
+                                  <img
+                                    src={getImageUrl(item.imageIndex)}
+                                    alt={item.label}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      objectFit: "cover",
+                                      borderRadius: "8px",
+                                    }}
+                                  />
+                                </div>
+                                <div
+                                  style={{ paddingLeft: 16, paddingRight: 16 }}
+                                >
+                                                                    
+                                <div>
+                                    <span style={{ wordBreak: "break-word" }}>
+                                      <h3>{category.name}</h3>
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <span style={{ wordBreak: "break-word" }}>
+                                      {item.label}  | <span>{groups.length} domains</span>
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <small>{item.description}</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ))}
                 </div>
               </article>
             );

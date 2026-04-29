@@ -26,7 +26,7 @@ const linkLines = fs.readFileSync(linksMdPath, "utf8")
 function slugify(url) {
   try {
     const u = new URL(url);
-    const domain = u.hostname.replace(/^www\./, "");
+    const domain = u.hostname.replace(/^www\./, "").replaceAll(".", "-");
     let label = u.pathname === "/" ? "homepage" : u.pathname.split("/").filter(Boolean).pop() || "page";
     label = label.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase();
     return `${domain}-${label}`;

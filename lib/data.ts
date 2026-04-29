@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
+export const MAX_IMAGE_INDEX = 291;
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") || "https://playfantacy.com";
 
@@ -18,9 +19,34 @@ export const categories = [
     description: "Collection pages, recommendation hubs, and route-based directory pages."
   },
   {
-    slug: "sites",
-    name: "Sites",
-    description: "Direct site links, galleries, and standalone destinations from the saved list."
+    slug: "sites-1",
+    name: "Sites 1",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 1)."
+  },
+  {
+    slug: "sites-2",
+    name: "Sites 2",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 2)."
+  },
+  {
+    slug: "sites-3",
+    name: "Sites 3",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 3)."
+  },
+  {
+    slug: "sites-4",
+    name: "Sites 4",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 4)."
+  },
+  {
+    slug: "sites-5",
+    name: "Sites 5",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 5)."
+  },
+  {
+    slug: "sites-6",
+    name: "Sites 6",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (part 6)."
   },
   {
     slug: "platforms",
@@ -66,6 +92,7 @@ export type LinkItem = {
   rawUrl: string;
   category: CategorySlug;
   description: string;
+  imageIndex: number;
 };
 
 export type DomainGroup = {
@@ -74,6 +101,7 @@ export type DomainGroup = {
   domain: string;
   category: CategorySlug;
   description: string;
+  imageIndex: number;
   items: LinkItem[];
 };
 
@@ -278,7 +306,14 @@ function categorize(url: URL): CategorySlug {
     return "profiles";
   }
 
-  return "sites";
+  // Split sites into 6 buckets
+  // We'll assign based on the hash of the hostname to distribute evenly
+  const sitesBuckets = ["sites-1", "sites-2", "sites-3", "sites-4", "sites-5", "sites-6"];
+  if (true) {
+    // Only for sites
+    const hash = Array.from(hostname).reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    return sitesBuckets[hash % 6] as CategorySlug;
+  }
 }
 
 function getQueryValue(url: URL, key: string) {
@@ -426,7 +461,7 @@ function createUniqueSlug(base: string) {
 const rawLinks = loadRawLinks();
 
 export const links: LinkItem[] = rawLinks
-  .map((entry) => {
+  .map((entry, index) => {
     const normalizedUrl = normalizeExternalUrl(entry);
     const url = new URL(normalizedUrl);
     const category = categorize(url);
@@ -434,6 +469,7 @@ export const links: LinkItem[] = rawLinks
     const label = labelForUrl(url, category, siteName);
     const name = buildItemName(siteName, label);
     const slugBase = slugify(`${formatDomain(url.hostname)}-${label || siteName}`);
+    const imageIndex = index > MAX_IMAGE_INDEX ? Math.floor(index % MAX_IMAGE_INDEX) + 1 : index + 1;
 
     return {
       slug: createUniqueSlug(slugBase || "link"),
@@ -444,7 +480,8 @@ export const links: LinkItem[] = rawLinks
       url: normalizedUrl,
       rawUrl: entry,
       category,
-      description: buildDescription(url, category, label)
+      description: buildDescription(url, category, label),
+      imageIndex
     };
   })
   .sort((a, b) => a.siteName.localeCompare(b.siteName) || a.label.localeCompare(b.label));
@@ -455,10 +492,10 @@ export const activeCategories = categories.filter((category) =>
 
 export const domainGroups: DomainGroup[] = (() => {
   const groups = new Map<string, DomainGroup>();
-
   for (const link of links) {
     const key = `${link.category}::${link.domain}`;
     const existing = groups.get(key);
+    const imageIndex = groups.size > MAX_IMAGE_INDEX ? Math.floor(groups.size % MAX_IMAGE_INDEX) + 1 : groups.size + 1;
 
     if (existing) {
       existing.items.push(link);
@@ -471,6 +508,7 @@ export const domainGroups: DomainGroup[] = (() => {
       domain: link.domain,
       category: link.category,
       description: `Saved links from ${link.siteName}.`,
+      imageIndex,
       items: [link]
     });
   }
@@ -491,7 +529,7 @@ export const domainGroups: DomainGroup[] = (() => {
 export const groupedLinksByCategory = activeCategories.map((category) => ({
   category,
   groups: domainGroups.filter((group) => group.category === category.slug)
-}));
+})).sort((a, b) => a.groups.length - b.groups.length || a.category.name.localeCompare(b.category.name));
 
 export function getGroupsByCategory(slug: string) {
   return domainGroups.filter((group) => group.category === slug);
