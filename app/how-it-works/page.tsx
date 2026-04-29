@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "How It Works",
-  description: "See how Play Fantacy organizes, groups, and presents saved links."
+  description: "See how Play Fantacy organizes, groups, and presents saved links.",
 };
 
 export default function HowItWorksPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">How It Works</p>
         <h1>How Play Fantacy turns a raw list into a usable night directory</h1>
         <div className="legal-copy">
           <p>
-            Play Fantacy starts with a single source file of saved links and transforms that list into
-            a structured browsing experience. Instead of forcing visitors to scroll through raw
+            Play Fantacy starts with a single source file of saved links and transforms that list
+            into a structured browsing experience. Instead of forcing visitors to scroll through raw
             URLs, the site groups destinations by category and then by shared domain.
           </p>
           <p>

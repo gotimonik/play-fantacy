@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -31,6 +32,7 @@ const faqs = [
 export default function FaqPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">FAQ</p>
         <h1>Frequently asked questions</h1>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 export default function TermsOfUsePage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">Terms of Use</p>
         <h1>Terms of Use</h1>

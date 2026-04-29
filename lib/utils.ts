@@ -30,4 +30,4 @@ const createNonRepeatingNumberGenerator = (min = 1, max = 30) => {
 
 export const getRandomNumber = (min = 1, max = 60) => createNonRepeatingNumberGenerator(min, max)();
 
-export const getImageUrl = (imageIndex = 1, size = '') => `/images/image_${size ? `${size}_` : ''}${imageIndex}.jpg`;
+export const getImageUrl = (imageIndex = 1, size = '') => `/images/image_${size ? `${size}_` : ''}${imageIndex||1}.jpg`;

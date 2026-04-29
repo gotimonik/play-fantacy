@@ -1,7 +1,7 @@
 import Link from "next/link";
-// import { useState } from "react";
 import { groupedLinksByCategory, siteUrl } from "@/lib/data";
 import { getImageUrl, getRandomNumber } from "@/lib/utils";
+import { Breadcrumbs } from "./components/Breadcrumbs";
 
 const supportCards = [
   {
@@ -28,11 +28,9 @@ const jsonLd = {
 };
 
 export default function HomePage() {
-  // const [search, setSearch] = useState("");
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
-
   return (
     <main className="page-shell">
+      <Breadcrumbs />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -49,20 +47,31 @@ export default function HomePage() {
             flexWrap: "wrap",
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <img src="/images/image_original_287.jpg" alt="Play Fantacy Logo" style={{ width: 75, height: 75, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
-            <span style={{ fontWeight: 700, fontSize: '1.35rem', letterSpacing: '-0.5px', color: '#bb4d00' }}>Play Fantacy</span>
-          </div>
-          {/* <div style={{ flex: '1 1 220px', maxWidth: 320, minWidth: 180 }}>
-            <input
-              type="search"
-              value={search}
-              onChange={handleSearch}
-              placeholder="Search links..."
-              aria-label="Search links"
-              style={{ width: '100%', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid #ccc', fontSize: '1rem' }}
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
+            <img
+              src="/images/image_original_287.jpg"
+              alt="Play Fantacy Logo"
+              style={{
+                width: 75,
+                height: 75,
+                borderRadius: "50%",
+                objectFit: "cover",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+              }}
             />
-          </div> */}
+            <span
+              style={{
+                fontWeight: 700,
+                fontSize: "1.35rem",
+                letterSpacing: "-0.5px",
+                color: "#bb4d00",
+              }}
+            >
+              Play Fantacy
+            </span>
+          </div>
         </div>
         <p className="hero-text">
           Play Fantacy turns a long saved list into a night-friendly hub with
@@ -133,109 +142,114 @@ export default function HomePage() {
 
         <div className="category-grid">
           {groupedLinksByCategory.map(({ category, groups }) => {
-            // Filter groups and items by search
-            // const filteredGroups = groups
-            //   .map((group) => ({
-            //     ...group,
-            //     items: group.items.filter(
-            //       (item) =>
-            //         item.label.toLowerCase().includes(search.toLowerCase()) ||
-            //         item.siteName.toLowerCase().includes(search.toLowerCase()) ||
-            //         item.domain.toLowerCase().includes(search.toLowerCase())
-            //     ),
-            //   }))
-            //   .filter((group) => group.items.length > 0);
-            // if (filteredGroups.length === 0) return null;
             return (
               <article key={category.slug} className="category-card">
                 <div className="category-header">
-                  {/* <img
-                    src={imageUrl}
-                    alt={category.name + " illustration"}
-                    className="category-image"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      marginBottom: "0.5rem",
-                    }}
-                  /> */}
                   <h3>{category.name}</h3>
                   <span>{groups.length} domains</span>
                 </div>
                 <p>{category.description}</p>
 
                 <div className="domain-group-list">
-                  {groups.map((group) => (
-                    <details
-                      key={`${category.slug}-${group.domain}`}
-                      className="domain-group"
-                      // open={group.items.length <= 12}
-                    >
-                      <summary className="domain-group-summary">
-                        <img
-                          src={getImageUrl(group.items[0].imageIndex)}
-                          alt={group.items[0].label}
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            objectFit: "cover",
-                            borderRadius: "20%",
-                          }}
-                        />
-                        <span>{group.siteName}</span>
-                        <small>
-                          {group.domain} · {group.items.length} link
-                          {group.items.length > 1 ? "s" : ""}
-                        </small>
-                      </summary>
+                  {groups.map((group) =>
+                    group.items.length === 1 ? (
+                      <Link
+                        href={`/links/${group.items[0].slug}`}
+                        className="outbound-link"
+                      >
+                        <div style={{ display: "flex" }}>
+                          <div>
+                            <img
+                              src={getImageUrl(group.items[0].imageIndex)}
+                              alt={group.items[0].label}
+                              style={{
+                                width: "100px",
+                                height: "100px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ paddingLeft: 8, paddingRight: 8 }}>
+                            <div>
+                              <span style={{ wordBreak: "break-word" }}>
+                                {group.items[0].label}
+                              </span>
+                            </div>
+                            <div>
+                              <small>{group.items[0].description}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <details
+                        key={`${category.slug}-${group.domain}`}
+                        className="domain-group"
+                        // open={group.items.length <= 12}
+                      >
+                        <summary className="domain-group-summary">
+                          <img
+                            src={getImageUrl(group.items[0].imageIndex)}
+                            alt={group.items[0].label}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                              borderRadius: "20%",
+                            }}
+                          />
+                          <span>{group.siteName}</span>
+                          <small>
+                            {group.domain} · {group.items.length} link
+                            {group.items.length > 1 ? "s" : ""}
+                          </small>
+                        </summary>
 
-                      <ul className="sub-link-list">
-                        {group.items.map((item) => (
-                          <li key={item.slug}>
-                            <Link
-                              href={`/links/${item.slug}`}
-                              className="outbound-link"
-                            >
-                              <div style={{ display: "flex" }}>
-                                <div>
-                                  <img
-                                    src={getImageUrl(item.imageIndex)}
-                                    alt={item.label}
+                        <ul className="sub-link-list">
+                          {group.items.map((item) => (
+                            <li key={item.slug}>
+                              <Link
+                                href={`/links/${item.slug}`}
+                                className="outbound-link"
+                              >
+                                <div style={{ display: "flex" }}>
+                                  <div>
+                                    <img
+                                      src={getImageUrl(item.imageIndex)}
+                                      alt={item.label}
+                                      style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        objectFit: "cover",
+                                        borderRadius: "8px",
+                                      }}
+                                    />
+                                  </div>
+                                  <div
                                     style={{
-                                      width: "100px",
-                                      height: "100px",
-                                      objectFit: "cover",
-                                      borderRadius: "8px",
+                                      paddingLeft: 16,
+                                      paddingRight: 16,
                                     }}
-                                  />
-                                </div>
-                                <div
-                                  style={{ paddingLeft: 16, paddingRight: 16 }}
-                                >
-                                                                    
-                                <div>
-                                    <span style={{ wordBreak: "break-word" }}>
-                                      <h3>{category.name}</h3>
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <span style={{ wordBreak: "break-word" }}>
-                                      {item.label}  | <span>{groups.length} domains</span>
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <small>{item.description}</small>
+                                  >
+                                    <div>
+                                      <span style={{ wordBreak: "break-word" }}>
+                                        {item.label} |{" "}
+                                        <span>{groups.length} domains</span>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <small>{item.description}</small>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  ))}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    ),
+                  )}
                 </div>
               </article>
             );

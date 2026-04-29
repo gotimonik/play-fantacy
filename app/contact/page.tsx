@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Contact and update guidance for Play Fantacy."
+  description: "Contact and update guidance for Play Fantacy.",
 };
 
 export default function ContactPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">Contact Us</p>
         <h1>Contact Us</h1>

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Disclaimer",
-  description: "Disclaimer for the Play Fantacy directory."
+  description: "Disclaimer for the Play Fantacy directory.",
 };
 
 export default function DisclaimerPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">Disclaimer</p>
         <h1>Disclaimer</h1>

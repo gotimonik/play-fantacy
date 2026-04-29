@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "DMCA",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 export default function DmcaPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">DMCA</p>
         <h1>DMCA Notice</h1>

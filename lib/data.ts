@@ -328,7 +328,7 @@ function labelForUrl(url: URL, category: CategorySlug, siteName: string) {
   const isRootOnly = (url.pathname === "" || url.pathname === "/") && !url.search && !url.hash;
 
   if (isRootOnly) {
-    return "Homepage";
+    return siteName;
   }
 
   if (hostname === "www.pornmd.com") {

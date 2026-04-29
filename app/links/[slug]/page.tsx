@@ -8,6 +8,7 @@ import {
   links,
 } from "@/lib/data";
 import { getImageUrl } from "@/lib/utils";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 type Props = {
   params: {
@@ -53,6 +54,7 @@ export default function LinkDetailPage({ params }: Props) {
 
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <div className="link-detail-card">
         <p className="eyebrow">{category?.name ?? "Saved link"}</p>
         <h1>{item.name}</h1>
@@ -64,22 +66,20 @@ export default function LinkDetailPage({ params }: Props) {
         </div>
 
         <div>
-          <a
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          ><img
-            src={getImageUrl(item.imageIndex)}
-            alt={item.name}
-            className="category-image"
-            style={{
-              width: "250px",
-              height: "250px",
-              objectFit: "cover",
-              borderRadius: "8px",
-              marginBottom: "0.5rem",
-            }}
-          /></a>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">
+            <img
+              src={getImageUrl(item.imageIndex)}
+              alt={item.name}
+              className="category-image"
+              style={{
+                width: "250px",
+                height: "250px",
+                objectFit: "cover",
+                borderRadius: "8px",
+                marginBottom: "0.5rem",
+              }}
+            />
+          </a>
         </div>
         <div className="hero-actions">
           <a
@@ -112,20 +112,36 @@ export default function LinkDetailPage({ params }: Props) {
                   href={`/links/${related.slug}`}
                   className="table-link"
                 >
-                  <img
-                    src={getImageUrl(related.imageIndex)}
-                    alt={related.label}
-                    className="category-image"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      marginBottom: "0.5rem",
-                    }}
-                  />
-                  <span>{related.label}</span>
-                  <small>{related.description}</small>
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <img
+                        src={getImageUrl(related.imageIndex)}
+                        alt={related.label}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          marginBottom: "0.5rem",
+                        }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        paddingLeft: 16,
+                        paddingRight: 16,
+                      }}
+                    >
+                      <div>
+                        <span style={{ wordBreak: "break-word" }}>
+                          <span>{related.label}</span>
+                        </span>
+                      </div>
+                      <div>
+                        <small>{related.description}</small>
+                      </div>
+                    </div>
+                  </div>
                 </Link>
               ))
             ) : (

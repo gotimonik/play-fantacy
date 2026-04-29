@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for the Play Fantacy directory."
+  description: "Privacy policy for the Play Fantacy directory.",
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">Privacy Policy</p>
         <h1>Privacy Policy</h1>

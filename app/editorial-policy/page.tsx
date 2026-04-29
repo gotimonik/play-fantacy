@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Editorial Policy",
-  description: "Editorial and content guidelines for Play Fantacy."
+  description: "Editorial and content guidelines for Play Fantacy.",
 };
 
 export default function EditorialPolicyPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">Editorial Policy</p>
         <h1>Editorial standards and original site structure</h1>

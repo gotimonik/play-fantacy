@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="subpage-shell">
+      <Breadcrumbs />
       <section className="legal-shell">
         <p className="eyebrow">About Us</p>
         <h1>About Us</h1>
