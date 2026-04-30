@@ -1,3 +1,5 @@
+import { siteUrl } from "./data";
+
 const createNonRepeatingNumberGenerator = (min = 1, max = 30) => {
   let numbers: number[] = [];
   let index = 0;
@@ -30,4 +32,16 @@ const createNonRepeatingNumberGenerator = (min = 1, max = 30) => {
 
 export const getRandomNumber = (min = 1, max = 60) => createNonRepeatingNumberGenerator(min, max)();
 
-export const getImageUrl = (imageIndex = 1, size = '') => `/images/image_${size ? `${size}_` : ''}${imageIndex||1}.jpg`;
+export const getImageUrl = (imageIndex = 1, size = '') => `${siteUrl}/images/image_${size ? `${size}_` : ''}${imageIndex||1}.jpg`;
+
+export const shuffle = <T>(array: T[]): T[] => {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+
+    [result[i], result[randomIndex]] = [result[randomIndex], result[i]];
+  }
+
+  return result;
+}

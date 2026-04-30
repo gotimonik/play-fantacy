@@ -1,6 +1,15 @@
 // next.config.js
-module.exports = {
+
+const nextConfig = {
   images: {
-    domains: ['example.com'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: 'playfantacy.com',
+        pathname: "/**",
+      },
+    ],
   },
-}
+};
+
+module.exports = nextConfig;

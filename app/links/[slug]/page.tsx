@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   getCategoryBySlug,
@@ -67,16 +68,16 @@ export default function LinkDetailPage({ params }: Props) {
 
         <div>
           <a href={item.url} target="_blank" rel="noopener noreferrer">
-            <img
+            <Image
               src={getImageUrl(item.imageIndex)}
               alt={item.name}
-              className="category-image"
+              loading="lazy"
+              quality={75}
+              width={100}
+              height={100}
               style={{
-                width: "250px",
-                height: "250px",
                 objectFit: "cover",
                 borderRadius: "8px",
-                marginBottom: "0.5rem",
               }}
             />
           </a>
@@ -114,15 +115,16 @@ export default function LinkDetailPage({ params }: Props) {
                 >
                   <div style={{ display: "flex" }}>
                     <div>
-                      <img
+                      <Image
                         src={getImageUrl(related.imageIndex)}
                         alt={related.label}
+                        loading="lazy"
+                        quality={75}
+                        width={100}
+                        height={100}
                         style={{
-                          width: "100px",
-                          height: "100px",
                           objectFit: "cover",
                           borderRadius: "8px",
-                          marginBottom: "0.5rem",
                         }}
                       />
                     </div>
