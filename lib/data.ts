@@ -531,6 +531,11 @@ export const groupedLinksByCategory = activeCategories.map((category) => ({
   groups: domainGroups.filter((group) => group.category === category.slug)
 })).sort((a, b) => b.groups.length - a.groups.length || a.category.name.localeCompare(b.category.name));
 
+export const groupedLinksByCategorySorted = activeCategories.map((category) => ({
+  category,
+  groups: domainGroups.filter((group) => group.category === category.slug)
+})).sort((a, b) => a.groups.length - b.groups.length || a.category.name.localeCompare(b.category.name));
+
 
 export function getGroupsByCategory(slug: string) {
   return domainGroups.filter((group) => group.category === slug);

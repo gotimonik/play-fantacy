@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { groupedLinksByCategory } from "@/lib/data";
+import { groupedLinksByCategory, groupedLinksByCategorySorted } from "@/lib/data";
 import { getImageUrl } from "@/lib/utils";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 
@@ -20,7 +20,7 @@ export default function LinksPage() {
       </div>
 
       <div className="category-grid">
-        {groupedLinksByCategory.map(({ category, groups }) => {
+        {groupedLinksByCategorySorted.map(({ category, groups }) => {
           return (
             <details
               key={`${category.slug}-${category.name}`}
