@@ -25,13 +25,13 @@ export const categories = [
   },
   {
     slug: "sites-2",
-    name: "Adult",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 2)."
+    name: "Featured 2",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 2)."
   },
   {
     slug: "sites-3",
-    name: "Hot",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 3)."
+    name: "Featured 3",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 3)."
   },
   {
     slug: "sites-4",
@@ -40,8 +40,8 @@ export const categories = [
   },
   {
     slug: "sites-5",
-    name: "Amateur",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 5)."
+    name: "Featured 5",
+    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 5)."
   },
   {
     slug: "sites-6",
@@ -105,52 +105,7 @@ export type DomainGroup = {
   items: LinkItem[];
 };
 
-const knownRootNames: Record<string, string> = {
-  "arabhotx.com": "ArabHotX",
-  "arabporn.fun": "ArabPorn.fun",
-  "arabxnxx.com": "ArabXNXX",
-  "beeg.com": "Beeg",
-  "bokepindo.to": "Bokepindo",
-  "chaturbate.com": "Chaturbate",
-  "fullxcinema.com": "FullxCinema",
-  "jerkmate.com": "Jerkmate",
-  "justpicsplease.com": "Just Pics Please",
-  "lesbify.com": "Lesbify",
-  "link.pornmate.com": "Pornmate Links",
-  "mature-nl.eu": "Mature NL",
-  "milfslesbian.com": "Milfs Lesbian",
-  "nakedhorizon.com": "Naked Horizon",
-  "pornmate.com": "Pornmate",
-  "pornstargold.com": "Pornstar Gold",
-  "pornstill.com": "PornStill",
-  "porndope.com": "PornDope",
-  "porngale.com": "PornGale",
-  "spankbang.com": "SpankBang",
-  "stufferdb.com": "StufferDB",
-  "thesexlist.com": "The Sex List",
-  "www.cliphunter.com": "ClipHunter",
-  "www.desitales2.com": "DesiTales 2",
-  "www.iknowthatgirl.com": "I Know That Girl",
-  "www.manyvids.com": "ManyVids",
-  "www.maturecams.com": "MatureCams",
-  "www.pornhub.com": "Pornhub",
-  "www.pornhubpremium.com": "Pornhub Premium",
-  "www.pornmd.com": "PornMD",
-  "www.primepornlist.com": "Prime Porn List",
-  "www.redbled.com": "RedBled",
-  "www.redtube.com": "RedTube",
-  "www.sunporno.com": "SunPorno",
-  "www.tblop.com": "TBLOP",
-  "www.tube8.com": "Tube8",
-  "www.videobox.com": "VideoBox",
-  "www.vporn.com": "vPorn",
-  "www.xnxx.com": "XNXX",
-  "www.xvideos.com": "XVideos",
-  "www.youporn.com": "YouPorn",
-  "xhamster.com": "xHamster",
-  "xnxxsexhd.org": "XNXX Sex HD",
-  "zebawy.com": "Zebawy"
-};
+const knownRootNames: Record<string, string> = {};
 
 const directoryHosts = new Set(["link.pornmate.com", "pornmate.com", "thesexlist.com"]);
 const platformHosts = new Set([

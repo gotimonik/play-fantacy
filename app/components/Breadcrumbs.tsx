@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const BREADCRUMB_LABELS: Record<string, string> = {
   "": "Home",

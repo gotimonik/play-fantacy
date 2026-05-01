@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { groupedLinksByCategory } from "@/lib/data";
+import { groupedLinksByCategory, siteUrl } from "@/lib/data";
 import { getImageUrl, shuffle } from "@/lib/utils";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { LinkGroupCard } from "../components/LinkGroupCard";
+import { PersistedDetails } from "../components/PersistedDetails";
 
 export const metadata: Metadata = {
   title: "All Links",
   description:
     "Browse every saved destination from the Play Fantacy bookmark directory, grouped by domain.",
+  alternates: {
+    canonical: "/links",
+  },
+  openGraph: {
+    title: "All Links | Play Fantacy",
+    description:
+      "Browse every saved destination from the Play Fantacy bookmark directory, grouped by domain.",
+    url: `${siteUrl}/links`,
+    type: "website",
+  },
 };
 
 export default function LinksPage() {
@@ -27,6 +38,19 @@ export default function LinksPage() {
   return (
     <main className="subpage-shell">
       <Breadcrumbs />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "All Links",
+            url: `${siteUrl}/links`,
+            description:
+              "Browse every saved destination from the Play Fantacy bookmark directory, grouped by domain.",
+          }),
+        }}
+      />
 
       <div className="section-heading">
         <p className="eyebrow">Full index</p>
@@ -35,11 +59,12 @@ export default function LinksPage() {
 
       <div className="category-grid">
         {categories.map(({ category, groups }) => (
-          <details
+          <PersistedDetails
             key={`${category.slug}-${category.name}`}
+            storageKey={`links-category-${category.slug}`}
             className="domain-group category-card"
-          >
-            <summary className="domain-group-summary">
+            summaryClassName="domain-group-summary"
+            summary={
               <article>
                 <div className="category-header">
                   <h3>{category.name}</h3>
@@ -47,8 +72,8 @@ export default function LinksPage() {
                 </div>
                 <p>{category.description}</p>
               </article>
-            </summary>
-
+            }
+          >
             <div className="domain-group-list">
               {groups.map((group) => (
                 <LinkGroupCard
@@ -58,7 +83,7 @@ export default function LinksPage() {
                 />
               ))}
             </div>
-          </details>
+          </PersistedDetails>
         ))}
       </div>
     </main>

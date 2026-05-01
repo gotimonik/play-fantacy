@@ -7,9 +7,11 @@ import {
   getDomainGroupForLink,
   getLinkBySlug,
   links,
+  siteUrl,
 } from "@/lib/data";
 import { getImageUrl } from "@/lib/utils";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { BackButton } from "../../components/BackButton";
 
 type Props = {
   params: {
@@ -31,6 +33,19 @@ export function generateMetadata({ params }: Props): Metadata {
     description: item.description,
     alternates: {
       canonical: `/links/${item.slug}`,
+    },
+    openGraph: {
+      title: `${item.name} | Play Fantacy`,
+      description: item.description,
+      url: `${siteUrl}/links/${item.slug}`,
+      type: "article",
+      images: ["/og-image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${item.name} | Play Fantacy`,
+      description: item.description,
+      images: ["/og-image.png"],
     },
   };
 }
@@ -56,6 +71,18 @@ export default function LinkDetailPage({ params }: Props) {
   return (
     <main className="subpage-shell">
       <Breadcrumbs />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: item.name,
+            description: item.description,
+            url: `${siteUrl}/links/${item.slug}`,
+          }),
+        }}
+      />
       <div className="link-detail-card">
         <p className="eyebrow">{category?.name ?? "Saved link"}</p>
         <h1>{item.name}</h1>
@@ -67,14 +94,14 @@ export default function LinkDetailPage({ params }: Props) {
         </div>
 
         <div>
-          <a href={item.url} target="_blank" rel="noopener noreferrer">
+          <a href={item.url} target="_blank" rel="noopener noreferrer" data-ga-click="visit_external_site" data-ga-location="link_detail_image" data-ga-label={item.slug}>
             <Image
-              src={getImageUrl(item.imageIndex)}
+              src={getImageUrl(item.imageIndex, 'original')}
               alt={item.name}
               loading="lazy"
-              quality={75}
-              width={100}
-              height={100}
+              quality={100}
+              width={300}
+              height={300}
               style={{
                 objectFit: "cover",
                 borderRadius: "8px",
@@ -83,11 +110,15 @@ export default function LinkDetailPage({ params }: Props) {
           </a>
         </div>
         <div className="hero-actions">
+          <BackButton />
           <a
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
             className="primary-cta"
+            data-ga-click="visit_external_site"
+            data-ga-location="link_detail_cta"
+            data-ga-label={item.slug}
           >
             Visit site
           </a>

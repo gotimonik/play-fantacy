@@ -1,8 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
-  experimental: {
-    typedRoutes: true
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "playfantacy.com",
+        pathname: "/**"
+      }
+    ]
   }
 };
 

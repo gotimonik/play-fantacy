@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { siteUrl } from "@/lib/data";
+import { GA_MEASUREMENT_ID, isGAEnabled } from "@/lib/analytics";
+import { AnalyticsTracker } from "./components/AnalyticsTracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,8 +12,9 @@ export const metadata: Metadata = {
     template: "%s | Play Fantacy"
   },
   description:
-    "A grouped homepage for a personal link collection with readable names and direct outbound pages.",
+    "A grouped homepage for a large link collection with readable names and direct outbound pages.",
   applicationName: "Play Fantacy",
+  category: "directory",
   keywords: [
     "bookmark directory",
     "link hub",
@@ -19,6 +22,8 @@ export const metadata: Metadata = {
     "curated links",
     "personal bookmarks"
   ],
+  creator: "Play Fantacy",
+  publisher: "Play Fantacy",
   alternates: {
     canonical: "/"
   },
@@ -28,13 +33,22 @@ export const metadata: Metadata = {
     title: "Play Fantacy",
     description:
       "Browse a large personal link collection grouped into readable categories.",
-    siteName: "Play Fantacy"
+    siteName: "Play Fantacy",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Play Fantacy"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "Play Fantacy",
     description:
-      "Browse a large personal link collection grouped into readable categories."
+      "Browse a large personal link collection grouped into readable categories.",
+    images: ["/og-image.png"]
   },
   robots: {
     index: true,
@@ -58,16 +72,28 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
         <meta property="og:image" content="/og-image.png" />
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1FVM3SL01"></script>
-        <script dangerouslySetInnerHTML={{__html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-L1FVM3SL01');
-        `}} />
+        {isGAEnabled() ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });
+              `,
+              }}
+            />
+          </>
+        ) : null}
       </head>
       <body>
+        <AnalyticsTracker />
         <div className="site-frame">
           <header className="site-header">
             <div className="site-header-inner">
@@ -76,11 +102,11 @@ export default function RootLayout({
               </Link>
 
               <nav className="site-nav" aria-label="Primary">
-                <Link href="/">Home</Link>
-                <Link href="/links">All Links</Link>
-                <Link href="/about">About Us</Link>
-                <Link href="/how-it-works">How It Works</Link>
-                <Link href="/contact">Contact Us</Link>
+                <Link href="/" data-ga-click="nav_home" data-ga-location="header">Home</Link>
+                <Link href="/links" data-ga-click="nav_all_links" data-ga-location="header">All Links</Link>
+                <Link href="/about" data-ga-click="nav_about" data-ga-location="header">About Us</Link>
+                <Link href="/how-it-works" data-ga-click="nav_how_it_works" data-ga-location="header">How It Works</Link>
+                <Link href="/contact" data-ga-click="nav_contact" data-ga-location="header">Contact Us</Link>
               </nav>
             </div>
           </header>
@@ -100,29 +126,29 @@ export default function RootLayout({
               <div>
                 <p className="footer-heading">Navigation</p>
                 <div className="footer-links">
-                  <Link href="/">Home</Link>
-                  <Link href="/links">All Links</Link>
-                  <Link href="/about">About Us</Link>
-                  <Link href="/how-it-works">How It Works</Link>
+                  <Link href="/" data-ga-click="footer_nav_home" data-ga-location="footer">Home</Link>
+                  <Link href="/links" data-ga-click="footer_nav_all_links" data-ga-location="footer">All Links</Link>
+                  <Link href="/about" data-ga-click="footer_nav_about" data-ga-location="footer">About Us</Link>
+                  <Link href="/how-it-works" data-ga-click="footer_nav_how_it_works" data-ga-location="footer">How It Works</Link>
                 </div>
               </div>
 
               <div>
                 <p className="footer-heading">Content</p>
                 <div className="footer-links">
-                  <Link href="/faq">FAQ</Link>
-                  <Link href="/editorial-policy">Editorial Policy</Link>
-                  <Link href="/contact">Contact Us</Link>
+                  <Link href="/faq" data-ga-click="footer_content_faq" data-ga-location="footer">FAQ</Link>
+                  <Link href="/editorial-policy" data-ga-click="footer_content_editorial_policy" data-ga-location="footer">Editorial Policy</Link>
+                  <Link href="/contact" data-ga-click="footer_content_contact" data-ga-location="footer">Contact Us</Link>
                 </div>
               </div>
 
               <div>
                 <p className="footer-heading">Policies</p>
                 <div className="footer-links">
-                  <Link href="/terms-of-use">Terms of Use</Link>
-                  <Link href="/dmca">DMCA</Link>
-                  <Link href="/privacy-policy">Privacy Policy</Link>
-                  <Link href="/disclaimer">Disclaimer</Link>
+                  <Link href="/terms-of-use" data-ga-click="footer_policy_terms" data-ga-location="footer">Terms of Use</Link>
+                  <Link href="/dmca" data-ga-click="footer_policy_dmca" data-ga-location="footer">DMCA</Link>
+                  <Link href="/privacy-policy" data-ga-click="footer_policy_privacy" data-ga-location="footer">Privacy Policy</Link>
+                  <Link href="/disclaimer" data-ga-click="footer_policy_disclaimer" data-ga-location="footer">Disclaimer</Link>
                 </div>
               </div>
             </div>
