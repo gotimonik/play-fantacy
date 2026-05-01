@@ -2,6 +2,7 @@
 
 const nextConfig = {
   images: {
+    domains: ['playfantacy.com'],
     remotePatterns: [
       {
         protocol: "https",
