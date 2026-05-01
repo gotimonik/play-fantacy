@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { LinkGroupCard } from "./LinkGroupCard";
 import { PersistedDetails } from "./PersistedDetails";
 
@@ -169,6 +170,18 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
             <p className="eyebrow">Spin result</p>
             <h3>{selectedCategoryData.category.name}</h3>
             <p>{selectedCategoryData.category.description}</p>
+
+            {selectedCategoryData.groups[0]?.items[0] ? (
+              <div className="wheel-result-image-wrap">
+                <Image
+                  src={selectedCategoryData.groups[0].items[0].imageUrl}
+                  alt={selectedCategoryData.category.name}
+                  className="wheel-result-image"
+                  width={960}
+                  height={540}
+                />
+              </div>
+            ) : null}
 
             <div className="wheel-modal-preview">
               {selectedCategoryData.groups.slice(0, 4).map((group) => (

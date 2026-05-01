@@ -230,7 +230,7 @@ a {
 .wheel-section {
   margin: 18px 0 20px;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
   align-items: center;
 }
@@ -260,11 +260,7 @@ a {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 30% 15%,
-      rgba(255, 255, 255, 0.7),
-      transparent 36%
-    ),
+    radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.7), transparent 36%),
     radial-gradient(circle at 70% 85%, rgba(67, 97, 238, 0.2), transparent 38%),
     rgba(255, 255, 255, 0.48);
 }
@@ -279,6 +275,7 @@ a {
     inset 0 0 0 4px rgba(0, 0, 0, 0.08);
   transition: transform 3.2s cubic-bezier(0.15, 0.95, 0.2, 1);
   position: relative;
+  margin: 22px auto 10px;
 }
 
 .wheel-pointer {
@@ -342,7 +339,7 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.36);
   border-radius: 999px;
   padding: 4px 8px;
-  max-width: 120px;
+  max-width: 108px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -380,6 +377,22 @@ a {
 .wheel-modal-card p {
   margin: 0;
   color: var(--muted);
+}
+
+.wheel-result-image-wrap {
+  margin-top: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.wheel-result-image {
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
 }
 
 .wheel-modal-preview {
@@ -422,10 +435,8 @@ a {
 .support-grid,
 .site-footer-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
-  margin: 18px 0px 20px;
   gap: 18px;
+  margin-top: 16px;
 }
 
 .content-panel-grid,
@@ -656,6 +667,34 @@ details:not([open]) .persisted-details-hint {
   flex-shrink: 0;
 }
 
+.group-image-trigger {
+  position: relative;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.group-image-overlay {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, rgba(20, 20, 20, 0.82), rgba(20, 20, 20, 0.55));
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  text-align: center;
+  backdrop-filter: blur(2px);
+}
+
+.group-image-overlay strong {
+  font-size: 0.94rem;
+}
+
 .static-summary {
   padding: 0;
 }
@@ -743,6 +782,10 @@ details:not([open]) .persisted-details-hint {
   .wheel-modal-card {
     max-height: 92vh;
     padding: 18px;
+  }
+
+  .wheel-result-image {
+    max-height: 180px;
   }
 
   .wheel-modal-scroll {
@@ -881,6 +924,7 @@ details:not([open]) .persisted-details-hint {
     font-size: 0.98rem;
     padding-right: 8px;
   }
+
 
   .category-card {
     padding: 12px;

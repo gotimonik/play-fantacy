@@ -65,34 +65,32 @@ export function LinkGroupCard({
   return (
     <>
       <div className="domain-group-summary" style={{ justifyContent: "center" }}>
-        <Image
-          src={group.items[0].imageUrl}
-          alt={group.items[0].label}
-          loading="lazy"
-          quality={75}
-          width={150}
-          height={150}
-          sizes="100px"
-          style={{
-            objectFit: "cover",
-            borderRadius: "8px",
-          }}
-        />
-        <div>
-          <button
-            type="button"
-            className="secondary-cta"
-            style={{ minHeight: 36, padding: "0 14px" }}
-            onClick={() => setIsModalOpen(true)}
-            data-ga-click="open_group_modal"
-            data-ga-location="group_card"
-            data-ga-label={group.domain}
-          >
-            <span style={{ color: "var(--accent-deep)", padding: 0 }}>
-              Click {group.items.length} Link{group.items.length > 1 ? "s" : ""}
-            </span>
-          </button>
-        </div>
+        <button
+          type="button"
+          className="group-image-trigger"
+          onClick={() => setIsModalOpen(true)}
+          data-ga-click="open_group_modal"
+          data-ga-location="group_card"
+          data-ga-label={group.domain}
+          aria-label={`Open ${group.items.length} links in ${group.siteName}`}
+        >
+          <Image
+            src={group.items[0].imageUrl}
+            alt={group.items[0].label}
+            loading="lazy"
+            quality={75}
+            width={150}
+            height={150}
+            sizes="100px"
+            style={{
+              objectFit: "cover",
+              borderRadius: "8px",
+            }}
+          />
+          <span className="group-image-overlay">
+            <strong>{group.items.length}</strong> items
+          </span>
+        </button>
       </div>
 
       {isModalOpen && isMounted
