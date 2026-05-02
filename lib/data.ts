@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
-export const MAX_IMAGE_INDEX = 291;
+export const MAX_IMAGE_INDEX = 437;
 export const siteUrl =
   process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/+$/, "") || "https://playfantacy.com";
 
@@ -52,11 +52,6 @@ export const categories = [
     slug: "platforms",
     name: "Studios & Platforms",
     description: "Studio tours, creator platforms, signups, and premium network pages."
-  },
-  {
-    slug: "tumblr",
-    name: "Tumblr Blogs",
-    description: "Tumblr blogs and Tumblr account pages kept together."
   },
   {
     slug: "communities",
@@ -237,10 +232,6 @@ function categorize(url: URL): CategorySlug {
     return "searches";
   }
 
-  if (hostname === "www.tumblr.com" || hostname.endsWith(".tumblr.com")) {
-    return "tumblr";
-  }
-
   if (directoryHosts.has(hostname)) {
     return "directories";
   }
@@ -323,14 +314,6 @@ function labelForUrl(url: URL, category: CategorySlug, siteName: string) {
     return pathParts.length > 0 ? titleize(lastPart) : siteName;
   }
 
-  if (hostname.endsWith(".tumblr.com")) {
-    return titleize(hostname.replace(".tumblr.com", ""));
-  }
-
-  if (hostname === "www.tumblr.com") {
-    return pathParts.length > 0 ? titleize(pathParts.join(" ")) : siteName;
-  }
-
   if (communityHosts.has(hostname)) {
     if (pathParts[0] === "r" && pathParts[1]) {
       return `r/${decodeSegment(pathParts[1])}`;
@@ -389,8 +372,6 @@ function buildDescription(url: URL, category: CategorySlug, label: string) {
       return `Directory or listing route saved from ${domain}.`;
     case "platforms":
       return `Studio, signup, or premium platform route on ${domain}.`;
-    case "tumblr":
-      return `Tumblr destination saved from ${domain}.`;
     case "communities":
       return `Community-style destination saved from ${domain}.`;
     case "profiles":

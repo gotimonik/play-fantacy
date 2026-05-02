@@ -32,7 +32,7 @@ const createNonRepeatingNumberGenerator = (min = 1, max = 30) => {
 
 export const getRandomNumber = (min = 1, max = 60) => createNonRepeatingNumberGenerator(min, max)();
 
-export const getImageUrl = (imageIndex = 1, size = '') => `${siteUrl}/images/image_${size ? `${size}_` : ''}${imageIndex||1}.jpg`;
+export const getImageUrl = (imageIndex = 1, size = 'original') => `${siteUrl}/images/image_${size ? `${size}_` : ''}${imageIndex||1}.jpg`;
 
 export const shuffle = <T>(array: T[]): T[] => {
   const result = [...array];

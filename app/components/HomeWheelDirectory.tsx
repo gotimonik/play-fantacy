@@ -1,6 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
+// Optional: import a confetti library if available
+// import confetti from "canvas-confetti";
+// Sound effect for spinning
+const spinSoundUrl = "/images/spin-sound.mp3"; // Place your sound file in public/images
 import Link from "next/link";
 import Image from "next/image";
 import { LinkGroupCard } from "./LinkGroupCard";
@@ -51,6 +55,8 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
   const [showWinnerPopup, setShowWinnerPopup] = useState(false);
+  const [bounce, setBounce] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const segmentSize = 360 / Math.max(categories.length, 1);
   const gradient = useMemo(() => {
@@ -84,9 +90,19 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
     const nextRotation = rotation + fullSpins + (360 - targetOffset);
 
     setIsSpinning(true);
+    setBounce(false);
     setRotation(nextRotation);
 
+    // Play spin sound
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    }
+
     window.setTimeout(() => {
+      setBounce(true);
+      // Confetti effect (uncomment if using a confetti library)
+      // confetti({ particleCount: 120, spread: 80, origin: { y: 0.4 } });
       setSelectedCategorySlug(categories[winnerIndex].category.slug);
       setShowWinnerPopup(true);
       setIsSpinning(false);
@@ -130,9 +146,14 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
         </div>
 
         <div className="wheel-right">
-          <div className="wheel-pointer" />
+          <div className="wheel-pointer">
+            <svg width="36" height="36" viewBox="0 0 36 36">
+              <polygon points="18,0 36,36 0,36" fill="#ffb703" stroke="#333" strokeWidth="2" />
+              <circle cx="18" cy="30" r="3" fill="#333" />
+            </svg>
+          </div>
           <div
-            className={`wheel-disc ${isSpinning ? "is-spinning" : ""}`}
+            className={`wheel-disc ${isSpinning ? "is-spinning" : ""} ${bounce ? "is-bounce" : ""}`}
             style={{ background: gradient, transform: `rotate(${rotation}deg)` }}
             aria-label="Category wheel"
           >
@@ -144,7 +165,8 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
               data-ga-click="spin_wheel_center"
               data-ga-location="home_wheel"
             >
-              {isSpinning ? "..." : "GO"}
+              <span role="img" aria-label="Spin">🎯</span>
+              <span style={{ fontWeight: 700, fontSize: '1.1em', marginLeft: 6 }}>{isSpinning ? "..." : "SPIN"}</span>
             </button>
             {categories.map(({ category }, index) => {
               const angle = index * segmentSize + segmentSize / 2;
@@ -160,6 +182,8 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
                 </span>
               );
             })}
+            {/* Add audio for spin effect */}
+            <audio ref={audioRef} src={spinSoundUrl} preload="auto" />
           </div>
         </div>
       </section>

@@ -1066,14 +1066,6 @@ https://nakedhorizon.com/
 https://nhentai.net/
 https://doujins.com/
 https://www.pixiv.net/ranking.php?mode=daily_r18
-https://www.nutaku.net/games/download/?ats=eyJhIjoxMDMwMCwiYyI6NDc3NTU2MzksIm4iOjEsInMiOjEsImUiOjg0MywicCI6Mn0=
-https://naked-titan.tumblr.com/
-https://pmvjunkie.tumblr.com/
-https://sirlance4589.tumblr.com/
-https://sirecchiextreme.tumblr.com/
-https://latenight-sexycomics.tumblr.com/
-https://boundx0beauty.tumblr.com/
-https://richthebartender.tumblr.com/
 https://theporndude.com/
 https://www.primepornlist.com/
 https://thesexlist.com/
