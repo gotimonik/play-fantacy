@@ -2,7 +2,6 @@
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    domains: ["localhost", "playfantacy.com"],
     remotePatterns: [
       {
         protocol: "https",
