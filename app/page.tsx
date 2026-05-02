@@ -97,15 +97,7 @@ export default function HomePage() {
           </p>
         </article>
 
-        <article className="content-panel">
-          <p className="eyebrow">Navigation</p>
-          <h2>Everything important stays within easy reach.</h2>
-          <p>
-            The header, footer, directory page, and detail pages are connected
-            so moving around the site feels smooth whether you are casually
-            browsing or searching for one specific stop.
-          </p>
-        </article>
+        {/* Removed unrelated or generic navigation description for SEO clarity */}
       </section>
 
       <HomeWheelDirectory categories={categories} />
