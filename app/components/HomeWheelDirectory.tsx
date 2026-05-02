@@ -165,8 +165,8 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
               data-ga-click="spin_wheel_center"
               data-ga-location="home_wheel"
             >
-              <span role="img" aria-label="Spin">🎯</span>
-              <span style={{ fontWeight: 700, fontSize: '1.1em', marginLeft: 6 }}>{isSpinning ? "..." : "SPIN"}</span>
+              <span role="img" aria-label="Go">🎯</span>
+              <span style={{ fontWeight: 700, fontSize: '1.1em', marginLeft: 6 }}>{isSpinning ? "..." : "GO"}</span>
             </button>
             {categories.map(({ category }, index) => {
               const angle = index * segmentSize + segmentSize / 2;

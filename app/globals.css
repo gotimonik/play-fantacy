@@ -254,6 +254,7 @@ a {
 }
 
 .wheel-right {
+  padding: 16px;
   min-height: 360px;
   display: grid;
   place-items: center;
@@ -292,7 +293,7 @@ a {
 
 .wheel-pointer {
   position: absolute;
-  top: 0;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   width: 36px;
