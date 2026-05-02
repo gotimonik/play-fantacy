@@ -1565,7 +1565,7 @@ https://cartoonporn.pro/
 https://hentaisensei.com/
 https://hentaihaven.xxx/
 https://hentai222.com/
-https://allporncomics.co/
+https://allporncomics.co/comics-home/
 https://e-hentaiplay.com/
 https://pornmate.com/hentaifox
 https://pornmate.com/hentaigasm
