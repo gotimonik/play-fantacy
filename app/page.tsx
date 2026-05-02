@@ -1,9 +1,26 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { links, groupedLinksByCategory, siteUrl } from "@/lib/data";
 import { getImageUrl } from "@/lib/utils";
 import { Breadcrumbs } from "./components/Breadcrumbs";
-import { HomeWheelDirectory } from "./components/HomeWheelDirectory";
-import Image from "next/image";
+import { LinkGroupCard } from "./components/LinkGroupCard";
+import { PersistedDetails } from "./components/PersistedDetails";
+
+const HomeWheelDirectory = dynamic(
+  () => import("./components/HomeWheelDirectory").then((mod) => mod.HomeWheelDirectory),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="wheel-section">
+        <div className="wheel-left">
+          <p className="eyebrow">Loading interactive wheel...</p>
+        </div>
+        <div className="wheel-right" />
+      </section>
+    ),
+  },
+);
 
 const supportCards = [
   {
@@ -38,7 +55,7 @@ const orgJsonLd = {
 };
 
 export default function HomePage() {
-  const categories = groupedLinksByCategory.map(({ category, groups }) => ({
+  const directoryCategories = groupedLinksByCategory.map(({ category, groups }) => ({
     category,
     groups: groups.map((group) => ({
       ...group,
@@ -46,6 +63,15 @@ export default function HomePage() {
         ...item,
         imageUrl: getImageUrl(item.imageIndex),
       })),
+    })),
+  }));
+  const wheelCategories = directoryCategories.map(({ category, groups }) => ({
+    category,
+    imageUrl: groups[0]?.items[0]?.imageUrl ?? getImageUrl(1),
+    previewGroups: groups.slice(0, 4).map((group) => ({
+      domain: group.domain,
+      siteName: group.siteName,
+      itemCount: group.items.length,
     })),
   }));
 
@@ -86,7 +112,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section className="content-panel-grid">
+      {/* <section className="content-panel-grid">
         <article className="content-panel">
           <p className="eyebrow">Overview</p>
           <h2>Built for large and active link collections.</h2>
@@ -96,11 +122,58 @@ export default function HomePage() {
             and easier next-click decisions.
           </p>
         </article>
+      </section> */}
 
-        {/* Removed unrelated or generic navigation description for SEO clarity */}
+      <HomeWheelDirectory categories={wheelCategories} />
+
+      <section id="directory" className="directory-section">
+        <div className="section-heading">
+          <p className="eyebrow">Homepage directory</p>
+          <h1>Browse by category and domain</h1>
+        </div>
+
+        <div className="category-grid">
+          {directoryCategories.map(({ category, groups }) => {
+            const visibleGroups = groups.slice(0, 10);
+            const hiddenGroupCount = Math.max(groups.length - visibleGroups.length, 0);
+
+            return (
+              <PersistedDetails
+                key={`${category.slug}-${category.name}`}
+                id={`category-${category.slug}`}
+                storageKey={`home-category-${category.slug}`}
+                className="domain-group category-card"
+                summaryClassName="domain-group-summary"
+                summary={
+                  <article>
+                    <div className="category-header">
+                      <h3>{category.name}</h3>
+                      <span>{groups.length} domains</span>
+                    </div>
+                    <p>{category.description}</p>
+                  </article>
+                }
+              >
+                <div className="domain-group-list">
+                  {visibleGroups.map((group) => (
+                    <LinkGroupCard
+                      key={`${category.slug}-${group.domain}`}
+                      group={group}
+                      domainCount={groups.length}
+                      compact
+                    />
+                  ))}
+                </div>
+                {hiddenGroupCount > 0 ? (
+                  <Link href="/links" className="directory-more-link">
+                    View {hiddenGroupCount} more domains
+                  </Link>
+                ) : null}
+              </PersistedDetails>
+            );
+          })}
+        </div>
       </section>
-
-      <HomeWheelDirectory categories={categories} />
 
       <section className="links-section">
         <div className="section-heading">
@@ -121,7 +194,7 @@ export default function HomePage() {
                 src={getImageUrl(item.imageIndex)}
                 alt={item.label}
                 loading="lazy"
-                quality={75}
+                quality={70}
                 width={150}
                 height={150}
                 sizes="100px"

@@ -96,12 +96,13 @@ export default function LinkDetailPage({ params }: Props) {
         <div>
           <a href={item.url} target="_blank" rel="noopener noreferrer" data-ga-click="visit_external_site" data-ga-location="link_detail_image" data-ga-label={item.slug}>
             <Image
-              src={getImageUrl(item.imageIndex, 'original')}
+              src={getImageUrl(item.imageIndex)}
               alt={item.name}
-              loading="lazy"
-              quality={100}
+              priority
+              quality={80}
               width={300}
               height={300}
+              sizes="300px"
               style={{
                 objectFit: "cover",
                 borderRadius: "8px",

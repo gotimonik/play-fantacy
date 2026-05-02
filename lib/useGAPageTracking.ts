@@ -8,6 +8,10 @@ export function useGAPageTracking() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (!pathname) {
+      return;
+    }
+
     const query =
       typeof window !== "undefined" ? window.location.search : "";
     const url = query ? `${pathname}${query}` : pathname;

@@ -1,13 +1,8 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
-// Optional: import a confetti library if available
-// import confetti from "canvas-confetti";
-// Sound effect for spinning
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { LinkGroupCard } from "./LinkGroupCard";
-import { PersistedDetails } from "./PersistedDetails";
 
 type Category = {
   slug: string;
@@ -15,23 +10,16 @@ type Category = {
   description: string;
 };
 
-type Item = {
-  slug: string;
-  label: string;
-  description: string;
-  imageIndex: number;
-  imageUrl: string;
-};
-
-type Group = {
+type PreviewGroup = {
   domain: string;
   siteName: string;
-  items: Item[];
+  itemCount: number;
 };
 
-type CategoryWithGroups = {
+type WheelCategory = {
   category: Category;
-  groups: Group[];
+  previewGroups: PreviewGroup[];
+  imageUrl: string;
 };
 
 const wheelColors = [
@@ -49,13 +37,17 @@ const wheelColors = [
   "#457b9d",
 ];
 
-export function HomeWheelDirectory({ categories }: { categories: CategoryWithGroups[] }) {
+export function HomeWheelDirectory({ categories }: { categories: WheelCategory[] }) {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(
+    null,
+  );
   const [showWinnerPopup, setShowWinnerPopup] = useState(false);
   const [bounce, setBounce] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [questRound, setQuestRound] = useState(0);
+  const [questScore, setQuestScore] = useState(0);
+  const [questChoice, setQuestChoice] = useState<string | null>(null);
 
   const segmentSize = 360 / Math.max(categories.length, 1);
   const gradient = useMemo(() => {
@@ -70,15 +62,44 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
     return `conic-gradient(${segments.join(", ")})`;
   }, [categories, segmentSize]);
 
-  const visibleCategories = selectedCategorySlug
-    ? categories.filter(({ category }) => category.slug === selectedCategorySlug)
-    : categories;
-
   const selectedName =
     categories.find(({ category }) => category.slug === selectedCategorySlug)?.category.name ?? null;
   const selectedCategoryData = categories.find(
     ({ category }) => category.slug === selectedCategorySlug,
   );
+  const totalLinks = categories.reduce(
+    (total, item) =>
+      total + item.previewGroups.reduce((groupTotal, group) => groupTotal + group.itemCount, 0),
+    0,
+  );
+  const quest = useMemo(() => {
+    if (categories.length === 0) {
+      return null;
+    }
+
+    const answer = categories[questRound % categories.length];
+    const optionMap = new Map<string, WheelCategory>();
+    optionMap.set(answer.category.slug, answer);
+
+    let cursor = questRound + 1;
+    while (optionMap.size < Math.min(3, categories.length)) {
+      const option = categories[cursor % categories.length];
+      optionMap.set(option.category.slug, option);
+      cursor += 2;
+    }
+
+    const options = [...optionMap.values()].sort((a, b) => {
+      const aScore = (a.category.slug.charCodeAt(0) + questRound * 7) % 11;
+      const bScore = (b.category.slug.charCodeAt(0) + questRound * 7) % 11;
+      return aScore - bScore;
+    });
+
+    return {
+      answer,
+      options,
+      clues: answer.previewGroups.slice(0, 3),
+    };
+  }, [categories, questRound]);
 
   const spinWheel = () => {
     if (isSpinning || categories.length === 0) return;
@@ -92,32 +113,79 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
     setBounce(false);
     setRotation(nextRotation);
 
-    // Play spin sound
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-    }
-
     window.setTimeout(() => {
       setBounce(true);
-      // Confetti effect (uncomment if using a confetti library)
-      // confetti({ particleCount: 120, spread: 80, origin: { y: 0.4 } });
       setSelectedCategorySlug(categories[winnerIndex].category.slug);
       setShowWinnerPopup(true);
       setIsSpinning(false);
     }, 3200);
   };
 
+  const handleQuestGuess = (slug: string) => {
+    if (!quest || questChoice) {
+      return;
+    }
+
+    setQuestChoice(slug);
+    if (slug === quest.answer.category.slug) {
+      setQuestScore((score) => score + 1);
+    }
+  };
+
+  const nextQuestRound = () => {
+    setQuestChoice(null);
+    setQuestRound((round) => round + 1);
+  };
+
+  const browseSelectedCategory = () => {
+    if (!selectedCategoryData) {
+      return;
+    }
+
+    setShowWinnerPopup(false);
+
+    window.requestAnimationFrame(() => {
+      const selectedCard = document.getElementById(
+        `category-${selectedCategoryData.category.slug}`,
+      );
+
+      if (selectedCard instanceof HTMLDetailsElement) {
+        selectedCard.open = true;
+        selectedCard.classList.remove("is-directory-target");
+        void selectedCard.offsetWidth;
+        selectedCard.classList.add("is-directory-target");
+        selectedCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        document
+          .getElementById("directory")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  };
+
   return (
     <>
       <section className="wheel-section">
         <div className="wheel-left">
-          <p className="eyebrow">Pick for me</p>
-          <h2>Spin the wheel and get a surprise category</h2>
+          <div className="wheel-kicker-row">
+            <p className="eyebrow">Pick for me</p>
+            <span className="wheel-live-pill">{categories.length} categories</span>
+          </div>
+          <h2>Spin into a surprise route</h2>
           <p className="hero-text">
-            Hit spin and the homepage will instantly focus on one category. You can spin again
-            anytime or reset to view everything.
+            Hit spin and let the homepage pick a category, preview the top domains, and give
+            you a playful shortcut into the directory.
           </p>
+          <div className="wheel-mini-stats" aria-label="Wheel stats">
+            <span>
+              <strong>{totalLinks}</strong>
+              sampled links
+            </span>
+            <span>
+              <strong>{categories[0]?.previewGroups.length ?? 0}</strong>
+              quick clues
+            </span>
+          </div>
           <div className="hero-actions">
             <button
               type="button"
@@ -136,15 +204,26 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
               data-ga-click="reset_wheel_filter"
               data-ga-location="home_wheel"
             >
-              Show all categories
+              Reset result
             </button>
           </div>
           <p className="wheel-result">
             {selectedName ? `Result: ${selectedName}` : "Result: all categories"}
           </p>
+          {selectedCategoryData ? (
+            <div className="wheel-result-strip" aria-label="Selected category preview">
+              {selectedCategoryData.previewGroups.slice(0, 3).map((group) => (
+                <span key={group.domain}>
+                  {group.siteName}
+                  <small>{group.itemCount}</small>
+                </span>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div className="wheel-right">
+          <div className="wheel-orbit" aria-hidden="true" />
           <div className="wheel-pointer">
             <svg width="36" height="36" viewBox="0 0 36 36">
               <polygon points="18,0 36,36 0,36" fill="#ffb703" stroke="#333" strokeWidth="2" />
@@ -164,15 +243,16 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
               data-ga-click="spin_wheel_center"
               data-ga-location="home_wheel"
             >
-              <span role="img" aria-label="Go">🎯</span>
-              <span style={{ fontWeight: 700, fontSize: '1.1em', marginLeft: 6 }}>{isSpinning ? "..." : "GO"}</span>
+              {isSpinning ? "..." : "GO"}
             </button>
             {categories.map(({ category }, index) => {
               const angle = index * segmentSize + segmentSize / 2;
               return (
                 <span
                   key={category.slug}
-                  className="wheel-label"
+                  className={`wheel-label${
+                    category.slug === selectedCategorySlug ? " is-selected" : ""
+                  }`}
                   style={{
                     transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-122px) rotate(${-angle}deg)`,
                   }}
@@ -185,6 +265,84 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
         </div>
       </section>
 
+      {quest ? (
+        <section className="quest-section" aria-label="Link Quest game">
+          <div className="quest-board">
+            <div className="quest-copy">
+              <div className="wheel-kicker-row">
+                <p className="eyebrow">Link Quest</p>
+                <span className="wheel-live-pill">Score {questScore}</span>
+              </div>
+              <h2>Guess the category from the clues</h2>
+              <p>
+                Three domains are on the board. Pick the category they belong to and keep
+                your streak alive.
+              </p>
+            </div>
+
+            <div className="quest-clues">
+              {quest.clues.map((group, index) => (
+                <article key={`${group.domain}-${index}`} className="quest-clue-card">
+                  <span>Clue {index + 1}</span>
+                  <strong>{group.siteName}</strong>
+                  <small>
+                    {group.itemCount} links on {group.domain}
+                  </small>
+                </article>
+              ))}
+            </div>
+
+            <div className="quest-options">
+              {quest.options.map(({ category }) => {
+                const isPicked = questChoice === category.slug;
+                const isAnswer = quest.answer.category.slug === category.slug;
+                const resultClass = questChoice
+                  ? isAnswer
+                    ? " is-correct"
+                    : isPicked
+                      ? " is-wrong"
+                      : ""
+                  : "";
+
+                return (
+                  <button
+                    key={category.slug}
+                    type="button"
+                    className={`quest-option${resultClass}`}
+                    onClick={() => handleQuestGuess(category.slug)}
+                    disabled={Boolean(questChoice)}
+                    data-ga-click="quest_guess_category"
+                    data-ga-location="home_link_quest"
+                    data-ga-label={category.slug}
+                  >
+                    {category.name}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="quest-footer">
+              <p>
+                {questChoice
+                  ? questChoice === quest.answer.category.slug
+                    ? "Nice pick. That category was hiding in plain sight."
+                    : `Close one. The answer was ${quest.answer.category.name}.`
+                  : "Choose a category to reveal the answer."}
+              </p>
+              <button
+                type="button"
+                className="secondary-cta"
+                onClick={nextQuestRound}
+                data-ga-click="quest_next_round"
+                data-ga-location="home_link_quest"
+              >
+                Next round
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {showWinnerPopup && selectedCategoryData ? (
         <div className="wheel-modal-overlay" role="dialog" aria-modal="true" aria-label="Spin result">
           <div className="wheel-modal-card">
@@ -192,39 +350,40 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
             <h3>{selectedCategoryData.category.name}</h3>
             <p>{selectedCategoryData.category.description}</p>
 
-            {selectedCategoryData.groups[0]?.items[0] ? (
+            {selectedCategoryData.imageUrl ? (
               <div className="wheel-result-image-wrap">
                 <Image
-                  src={selectedCategoryData.groups[0].items[0].imageUrl}
+                  src={selectedCategoryData.imageUrl}
                   alt={selectedCategoryData.category.name}
                   className="wheel-result-image"
-                  width={960}
-                  height={540}
+                  width={600}
+                  height={360}
+                  sizes="(max-width: 720px) 92vw, 600px"
                 />
               </div>
             ) : null}
 
             <div className="wheel-modal-preview">
-              {selectedCategoryData.groups.slice(0, 4).map((group) => (
+              {selectedCategoryData.previewGroups.map((group) => (
                 <article key={group.domain} className="wheel-modal-item">
                   <strong>{group.siteName}</strong>
                   <small>
-                    {group.items.length} links on {group.domain}
+                    {group.itemCount} links on {group.domain}
                   </small>
                 </article>
               ))}
             </div>
 
             <div className="hero-actions">
-              <a
-                href="#directory"
+              <button
+                type="button"
                 className="primary-cta"
-                onClick={() => setShowWinnerPopup(false)}
+                onClick={browseSelectedCategory}
                 data-ga-click="wheel_modal_show_result_section"
                 data-ga-location="home_wheel_modal"
               >
-                Show result section
-              </a>
+                Browse directory
+              </button>
               <Link
                 href="/links"
                 className="secondary-cta"
@@ -247,44 +406,6 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
           </div>
         </div>
       ) : null}
- 
-      <section id="directory" className="directory-section">
-        <div className="section-heading">
-          <p className="eyebrow">Homepage directory</p>
-          <h1>{selectedName ? `Now showing: ${selectedName}` : "Browse by category and domain"}</h1>
-        </div>
-
-        <div className={`category-grid ${visibleCategories.length === 1 ? "single-result-grid" : ""}`}>
-          {visibleCategories.map(({ category, groups }) => (
-            <PersistedDetails
-              key={`${category.slug}-${category.name}`}
-              storageKey={`home-category-${category.slug}`}
-              defaultOpen
-              className="domain-group category-card"
-              summaryClassName="domain-group-summary"
-              summary={
-                <article>
-                  <div className="category-header">
-                    <h3>{category.name}</h3>
-                    <span>{groups.length} domains</span>
-                  </div>
-                  <p>{category.description}</p>
-                </article>
-              }
-            >
-              <div className="domain-group-list">
-                {groups.map((group) => (
-                  <LinkGroupCard
-                    key={`${category.slug}-${group.domain}`}
-                    group={group}
-                    domainCount={groups.length}
-                  />
-                ))}
-              </div>
-            </PersistedDetails>
-          ))}
-        </div>
-      </section>
     </>
   );
 }
