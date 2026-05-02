@@ -1410,7 +1410,7 @@ https://hifun.ai/?channel=pornmate
 https://nsfw.tools/
 https://nudiva.io/r/pornmate1224
 https://ai-deep-nude.com/
-https://aipornapps.com/
+https://aipornapps.com/videos/
 https://deepstrip.com/?utm_source=pornmate
 https://erosai.ai/
 https://drawnudes.app/r/pornmate1224
