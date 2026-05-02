@@ -4,7 +4,6 @@ import { useMemo, useState, useRef } from "react";
 // Optional: import a confetti library if available
 // import confetti from "canvas-confetti";
 // Sound effect for spinning
-const spinSoundUrl = "/images/spin-sound.mp3"; // Place your sound file in public/images
 import Link from "next/link";
 import Image from "next/image";
 import { LinkGroupCard } from "./LinkGroupCard";
@@ -182,8 +181,6 @@ export function HomeWheelDirectory({ categories }: { categories: CategoryWithGro
                 </span>
               );
             })}
-            {/* Add audio for spin effect */}
-            <audio ref={audioRef} src={spinSoundUrl} preload="auto" />
           </div>
         </div>
       </section>
