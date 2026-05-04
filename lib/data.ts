@@ -9,44 +9,44 @@ const linksSourcePath = path.resolve("lib/links.md");
 
 export const categories = [
   {
-    slug: "searches",
-    name: "Search Pages",
-    description: "Search-driven destinations grouped under the same domain for easier browsing."
+    slug: "featured-sites",
+    name: "Featured Websites",
+    description: "Discover top-rated and trending websites, including galleries and unique online destinations."
+  },
+  {
+    slug: "trending-sites",
+    name: "Trending Now",
+    description: "Stay updated with the latest trending websites and popular online destinations."
+  },
+  {
+    slug: "latest-sites",
+    name: "Latest Additions",
+    description: "Check out the newest websites and recently added online resources for quick discovery."
+  },
+  {
+    slug: "popular-sites",
+    name: "Most Popular",
+    description: "Explore the most visited and highly recommended websites across the platform."
+  },
+  {
+    slug: "recommended-sites",
+    name: "Recommended for You",
+    description: "Personalized and editor-picked websites tailored for discovery and inspiration."
+  },
+  {
+    slug: "search-pages",
+    name: "Search-Based Pages",
+    description: "Explore search-driven pages curated from across the web, organized for quick and easy discovery."
   },
   {
     slug: "directories",
-    name: "Directories & Lists",
-    description: "Collection pages, recommendation hubs, and route-based directory pages."
+    name: "Directories & Curated Lists",
+    description: "Browse handpicked directories, collections, and recommendation lists across various topics."
   },
   {
-    slug: "sites-1",
-    name: "Big Hub",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 1)."
-  },
-  {
-    slug: "sites-2",
-    name: "Featured 2",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 2)."
-  },
-  {
-    slug: "sites-3",
-    name: "Featured 3",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 3)."
-  },
-  {
-    slug: "sites-4",
-    name: "Latest",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 4)."
-  },
-  {
-    slug: "sites-5",
-    name: "Featured 5",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (segment 5)."
-  },
-  {
-    slug: "sites-6",
-    name: "Love",
-    description: "Direct site links, galleries, and standalone destinations from the saved list (part 6)."
+    slug: "internal-resources",
+    name: "Internal Resources",
+    description: "Navigate internal pages, related links, and platform-specific resources."
   },
   {
     slug: "platforms",
@@ -57,16 +57,6 @@ export const categories = [
     slug: "communities",
     name: "Communities",
     description: "Community-style destinations such as forums, subreddit pages, and shared hubs."
-  },
-  {
-    slug: "profiles",
-    name: "Profiles & Channels",
-    description: "Profile pages, channels, and creator or account-based destinations."
-  },
-  {
-    slug: "tools",
-    name: "Tools & Downloads",
-    description: "Extensions, downloads, and utility pages from the source file."
   },
   {
     slug: "tblop",
@@ -229,11 +219,11 @@ function categorize(url: URL): CategorySlug {
   }
 
   if (hostname === "www.pornmd.com") {
-    return "searches";
+    return "featured-sites";
   }
 
   if (directoryHosts.has(hostname)) {
-    return "directories";
+    return "trending-sites";
   }
 
   if (platformHosts.has(hostname)) {
@@ -244,17 +234,9 @@ function categorize(url: URL): CategorySlug {
     return "communities";
   }
 
-  if (toolHosts.has(hostname)) {
-    return "tools";
-  }
-
-  if (profileHosts.has(hostname)) {
-    return "profiles";
-  }
-
   // Split sites into 6 buckets
   // We'll assign based on the hash of the hostname to distribute evenly
-  const sitesBuckets = ["sites-1", "sites-2", "sites-3", "sites-4", "sites-5", "sites-6"];
+  const sitesBuckets = ["latest-sites", "search-pages", "directories", "featured-sites", "trending-sites", "internal-resources"];
   if (true) {
     // Only for sites
     const hash = Array.from(hostname).reduce((acc, c) => acc + c.charCodeAt(0), 0);
@@ -324,14 +306,6 @@ function labelForUrl(url: URL, category: CategorySlug, siteName: string) {
     }
   }
 
-  if (category === "profiles") {
-    if (pathParts[0]) {
-      return titleize(pathParts[pathParts.length - 1]);
-    }
-
-    return siteName;
-  }
-
   if (hostname === "www.videobox.com") {
     return getQueryValue(url, "pid") || siteName;
   }
@@ -366,22 +340,41 @@ function buildDescription(url: URL, category: CategorySlug, label: string) {
   const domain = formatDomain(url.hostname);
 
   switch (category) {
-    case "searches":
-      return `Saved search route for ${label} on ${domain}.`;
+    case "search-pages":
+      return `Explore search results for ${label} on ${domain}, curated for quick access and discovery.`;
+
     case "directories":
-      return `Directory or listing route saved from ${domain}.`;
+      return `Browse curated listings and directory pages related to ${label} on ${domain}.`;
+
     case "platforms":
-      return `Studio, signup, or premium platform route on ${domain}.`;
+      return `Access premium platforms, studio pages, and services related to ${label} on ${domain}.`;
+
     case "communities":
-      return `Community-style destination saved from ${domain}.`;
-    case "profiles":
-      return `Profile or channel page saved from ${domain}.`;
-    case "tools":
-      return `Tool or download page saved from ${domain}.`;
+      return `Join discussions and explore community content about ${label} on ${domain}.`;
+
+    case "internal-resources":
+      return `View internal resources and related content for ${label} on ${domain}.`;
+
     case "tblop":
-      return `TBLOP page saved directly from the source list.`;
+      return `Discover tools, apps, or downloads related to ${label} available on ${domain}.`;
+
+    case "featured-sites":
+      return `Discover featured content and highlighted pages like ${label} from ${domain}.`;
+
+    case "trending-sites":
+      return `Explore trending content like ${label}, popular among users right now.`;
+
+    case "popular-sites":
+      return `Browse popular content like ${label}, widely viewed and recommended by users.`;
+
+    case "latest-sites":
+      return `Check out newly added content like ${label}, recently discovered on ${domain}.`;
+
+    case "recommended-sites":
+      return `Explore recommended content like ${label}, curated for quality and relevance from ${domain}.`;
+
     default:
-      return `Direct site route saved from ${domain}.`;
+      return `Explore ${label} on ${domain}, a curated destination for easy browsing and discovery.`;
   }
 }
 

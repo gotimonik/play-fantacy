@@ -145,8 +145,8 @@ export default function LinkDetailPage({ params }: Props) {
                   href={`/links/${related.slug}`}
                   className="table-link"
                 >
-                  <div style={{ display: "flex" }}>
-                    <div>
+                  {/* <div style={{ display: "flex" }}>
+                    <div> */}
                       <Image
                         src={getImageUrl(related.imageIndex)}
                         alt={related.label}
@@ -159,8 +159,8 @@ export default function LinkDetailPage({ params }: Props) {
                           borderRadius: "8px",
                         }}
                       />
-                    </div>
-                    <div
+                    {/* </div> */}
+                    {/* <div
                       style={{
                         paddingLeft: 16,
                         paddingRight: 16,
@@ -174,8 +174,8 @@ export default function LinkDetailPage({ params }: Props) {
                       <div>
                         <small>{related.description}</small>
                       </div>
-                    </div>
-                  </div>
+                    </div> */}
+                  {/* </div> */}
                 </Link>
               ))
             ) : (

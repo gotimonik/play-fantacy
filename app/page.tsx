@@ -209,22 +209,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      <section className="support-section">
-        <div className="section-heading">
-          <p className="eyebrow">Why it works</p>
-          <h2>What makes the homepage easier to use</h2>
-        </div>
-
-        <div className="support-grid">
-          {supportCards.map((card) => (
-            <article key={card.title} className="support-card">
-              <h3>{card.title}</h3>
-              <p>{card.copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }
