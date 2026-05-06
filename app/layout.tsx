@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/lib/data";
 import { GA_MEASUREMENT_ID, isGAEnabled } from "@/lib/analytics";
 import { AnalyticsTracker } from "./components/AnalyticsTracker";
+import { NavigationMemory } from "./components/NavigationMemory";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -94,6 +95,7 @@ export default function RootLayout({
       </head>
       <body>
         <AnalyticsTracker />
+        <NavigationMemory />
         <div className="site-frame">
           <header className="site-header">
             <div className="site-header-inner">
