@@ -3,7 +3,10 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "DMCA",
-  description: "DMCA notice page for Play Fantacy."
+  description: "DMCA notice page for Play Fantacy.",
+  alternates: {
+    canonical: "/dmca",
+  },
 };
 
 export default function DmcaPage() {

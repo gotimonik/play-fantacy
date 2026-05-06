@@ -4,6 +4,9 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Editorial Policy",
   description: "Editorial and content guidelines for Play Fantacy.",
+  alternates: {
+    canonical: "/editorial-policy",
+  },
 };
 
 export default function EditorialPolicyPage() {

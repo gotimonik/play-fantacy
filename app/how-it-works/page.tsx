@@ -4,6 +4,9 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "How It Works",
   description: "See how Play Fantacy organizes, groups, and presents saved links.",
+  alternates: {
+    canonical: "/how-it-works",
+  },
 };
 
 export default function HowItWorksPage() {

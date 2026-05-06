@@ -3,7 +3,10 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Frequently asked questions about how Play Fantacy is organized and used."
+  description: "Frequently asked questions about how Play Fantacy is organized and used.",
+  alternates: {
+    canonical: "/faq",
+  },
 };
 
 const faqs = [

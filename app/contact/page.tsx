@@ -4,6 +4,9 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Contact and update guidance for Play Fantacy.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {

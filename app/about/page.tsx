@@ -3,7 +3,10 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn more about the Play Fantacy directory and how the link archive is organized."
+  description: "Learn more about the Play Fantacy directory and how the link archive is organized.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {

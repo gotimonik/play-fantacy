@@ -3,7 +3,10 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "Terms of use for the Play Fantacy directory."
+  description: "Terms of use for the Play Fantacy directory.",
+  alternates: {
+    canonical: "/terms-of-use",
+  },
 };
 
 export default function TermsOfUsePage() {
