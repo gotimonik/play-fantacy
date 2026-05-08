@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { siteUrl } from "@/lib/data";
 import { GA_MEASUREMENT_ID, isGAEnabled } from "@/lib/analytics";
 import { AnalyticsTracker } from "./components/AnalyticsTracker";
@@ -130,7 +131,9 @@ export default function RootLayout({
         ) : null}
       </head>
       <body>
-        <AnalyticsTracker />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         <NavigationMemory />
         <div className="site-frame">
           <header className="site-header">

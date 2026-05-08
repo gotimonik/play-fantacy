@@ -19,13 +19,17 @@ export function useGAClickTracking() {
       const action = tracked.dataset.gaClick;
       if (!action) return;
 
+      const link = tracked.closest("a[href]") as HTMLAnchorElement | null;
+
       event(action, {
         location: tracked.dataset.gaLocation,
         label: tracked.dataset.gaLabel || tracked.textContent?.trim(),
+        link_url: link?.href,
+        link_text: tracked.textContent?.trim(),
       });
     };
 
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
   }, []);
 }

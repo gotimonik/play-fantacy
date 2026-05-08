@@ -23,9 +23,19 @@ export function pageview(url: string) {
     return;
   }
 
-  console.log("page_view", url);
-  window.gtag("config", GA_MEASUREMENT_ID, {
+  console.debug("Tracking pageview:", {
+    page_location: window.location.href,
     page_path: url,
+    page_title: document.title,
+    send_to: GA_MEASUREMENT_ID,
+    transport_type: "beacon",
+  });
+  window.gtag("event", "page_view", {
+    page_location: window.location.href,
+    page_path: url,
+    page_title: document.title,
+    send_to: GA_MEASUREMENT_ID,
+    transport_type: "beacon",
   });
 }
 
@@ -38,6 +48,10 @@ export function event(action: string, params: GtagParams = {}) {
     return;
   }
 
-  console.log("event", { action, params });
-  window.gtag("event", action, params);
+  console.debug("Tracking event:", { action, params });
+  window.gtag("event", action, {
+    send_to: GA_MEASUREMENT_ID,
+    transport_type: "beacon",
+    ...params,
+  });
 }
