@@ -72,7 +72,13 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
+        <meta name="google-adsense-account" content="ca-pub-6031242056409187" />
         <meta property="og:image" content="/og-image.png" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6031242056409187"
+          crossOrigin="anonymous"
+        />
         {isGAEnabled() ? (
           <>
             <script

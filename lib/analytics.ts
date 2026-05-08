@@ -14,6 +14,8 @@ export function isGAEnabled() {
 }
 
 export function pageview(url: string) {
+  console.log('isGAEnabled()', isGAEnabled())
+  console.log('typeof window === "undefined"', typeof window, typeof window.gtag)
   if (!isGAEnabled() || typeof window === "undefined" || typeof window.gtag !== "function") {
     return;
   }
