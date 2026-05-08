@@ -12,6 +12,7 @@ import {
 import { getImageUrl } from "@/lib/utils";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { BackButton } from "../../components/BackButton";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
 
 type Props = {
   params: {
@@ -112,6 +113,7 @@ export default function LinkDetailPage({ params }: Props) {
         </div>
         <div className="hero-actions">
           <BackButton />
+          <FavoriteButton item={item} />
           <a
             href={item.url}
             target="_blank"
@@ -137,23 +139,21 @@ export default function LinkDetailPage({ params }: Props) {
           </div>
           <p>{group.domain}</p>
 
-          <div className="link-table">
-            {relatedLinks.length > 0 ? (
-              relatedLinks.map((related) => (
+          {relatedLinks.length > 0 && <div className="link-table">
+            {relatedLinks.map((related) => (
                 <Link
                   key={related.slug}
                   href={`/links/${related.slug}`}
-                  className="table-link"
                 >
                   {/* <div style={{ display: "flex" }}>
                     <div> */}
                       <Image
-                        src={getImageUrl(related.imageIndex)}
+                        src={getImageUrl(related.imageIndex, "")}
                         alt={related.label}
                         loading="lazy"
                         quality={75}
-                        width={100}
-                        height={100}
+                        width={150}
+                        height={150}
                         style={{
                           objectFit: "cover",
                           borderRadius: "8px",
@@ -178,16 +178,15 @@ export default function LinkDetailPage({ params }: Props) {
                   {/* </div> */}
                 </Link>
               ))
-            ) : (
-              <div className="table-link">
+            }
+          </div>}
+          {!relatedLinks.length && <div className="table-link">
                 <span>No additional routes</span>
                 <small>
                   This is the only saved link currently grouped under this
                   domain.
                 </small>
-              </div>
-            )}
-          </div>
+              </div>}
         </section>
       ) : null}
     </main>

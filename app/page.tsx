@@ -4,6 +4,7 @@ import Image from "next/image";
 import { links, groupedLinksByCategory, siteUrl } from "@/lib/data";
 import { getImageUrl } from "@/lib/utils";
 import { Breadcrumbs } from "./components/Breadcrumbs";
+import { FavoritesSection } from "./components/FavoritesSection";
 import { LinkGroupCard } from "./components/LinkGroupCard";
 import { PersistedDetails } from "./components/PersistedDetails";
 
@@ -61,13 +62,13 @@ export default function HomePage() {
       ...group,
       items: group.items.map((item) => ({
         ...item,
-        imageUrl: getImageUrl(item.imageIndex),
+        imageUrl: getImageUrl(item.imageIndex, ""),
       })),
     })),
   }));
   const wheelCategories = directoryCategories.map(({ category, groups }) => ({
     category,
-    imageUrl: groups[0]?.items[0]?.imageUrl ?? getImageUrl(1),
+    imageUrl: groups[0]?.items[0]?.imageUrl ?? getImageUrl(1, ""),
     previewGroups: groups.slice(0, 4).map((group) => ({
       domain: group.domain,
       siteName: group.siteName,
@@ -126,6 +127,8 @@ export default function HomePage() {
 
       <HomeWheelDirectory categories={wheelCategories} />
 
+      <FavoritesSection />
+
       <section id="directory" className="directory-section">
         <div className="section-heading">
           <p className="eyebrow">Homepage directory</p>
@@ -134,7 +137,7 @@ export default function HomePage() {
 
         <div className="category-grid">
           {directoryCategories.map(({ category, groups }) => {
-            const visibleGroups = groups.slice(0, 10);
+            const visibleGroups = groups.slice(0, 6);
             const hiddenGroupCount = Math.max(groups.length - visibleGroups.length, 0);
 
             return (
@@ -181,7 +184,7 @@ export default function HomePage() {
           <h2>Explore the latest indexed pages</h2>
         </div>
         <div className="link-table">
-          {links.slice(0, 24).map((item) => (
+          {links.slice(0, 12).map((item) => (
             <Link
               key={item.slug}
               href={`/links/${item.slug}`}
@@ -191,7 +194,7 @@ export default function HomePage() {
               data-ga-label={item.slug}
             >
               <Image
-                src={getImageUrl(item.imageIndex)}
+                src={getImageUrl(item.imageIndex, "")}
                 alt={item.label}
                 loading="lazy"
                 quality={70}

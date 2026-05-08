@@ -29,7 +29,7 @@ export default function LinksPage() {
         ...group,
         items: group.items.map((item) => ({
           ...item,
-          imageUrl: getImageUrl(item.imageIndex),
+          imageUrl: getImageUrl(item.imageIndex, ""),
         })),
       })),
     }),
