@@ -5,6 +5,7 @@ import { siteUrl } from "@/lib/data";
 import { GA_MEASUREMENT_ID, isGAEnabled } from "@/lib/analytics";
 import { AnalyticsTracker } from "./components/AnalyticsTracker";
 import { NavigationMemory } from "./components/NavigationMemory";
+import { ServiceWorkerCleanup } from "./components/ServiceWorkerCleanup";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -156,6 +157,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <AnalyticsTracker />
         </Suspense>
+        <ServiceWorkerCleanup />
         <NavigationMemory />
         <div className="site-frame">
           <header className="site-header">
